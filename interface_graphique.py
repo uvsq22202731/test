@@ -18,9 +18,10 @@ def menu():
     
     fenetre= tk.Tk()
     fenetre.title("menu blackjack")
+    fenetre.bind('<Escape>', lambda e: fenetre.destroy())
     background= tk.PhotoImage(file="menu.png")
     background_label = tk.Label(fenetre, image=background)
-    background_label.place(x=0, y=0, relwidth=1, relheight=1)
+    background_label.place(x=0, y=0)
     fenetre.attributes("-fullscreen",True)
     etat_play = tk.BooleanVar(fenetre) # creation variable booleen 
     etat_play.set(0) # intialisation de la variable a False
@@ -90,10 +91,12 @@ if fenetre_menu == True:
 
     fenetre= tk.Tk()
     fenetre.title("blackjack")
+    fenetre.bind('<Escape>', lambda e: fenetre.destroy())
     background= tk.PhotoImage(file="background.png")
     background_label = tk.Label(fenetre, image=background)
-    background_label.place(x=0, y=0, relwidth=1, relheight=1)
+    background_label.place(x=0, y=0)
     fenetre.attributes("-fullscreen",True)
+
 
 
     #deck de carte
@@ -133,6 +136,7 @@ if fenetre_menu == True:
 
     bouton_remake= tk.Button(fenetre, text="REMAKE", command=remake, width=20, bg='green')
     bouton_remake.place(x=480, y=838)
+    
     fenetre.mainloop()
 
 
