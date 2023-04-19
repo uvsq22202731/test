@@ -34,6 +34,47 @@ def menu():
     fenetrem.mainloop()
     return etat_play.get() # retourne True si JOUER est clické sinon reste False
 
+
+
+def as_menu():
+    """affiche le menu, propose 2 bouttons : quitter et jouer, jouer ammene le joueur sur une nouvelle fenetre jeu et ferme l'ancienne"""
+    def etat_quit(valeur):
+        """ferme la fenetre et retourne l'etat du boutton jouer"""
+        fenetreas.destroy()
+        return valeur
+    def etat_11():
+        global valeur
+        etat_as = 11
+        valeur = etat_quit(etat_as)
+        return valeur
+    def etat_1():
+        global valeur
+        etat_as = 1
+        valeur = etat_quit(etat_as)
+        return valeur
+
+    fenetreas= tk.Tk()
+    fenetreas.title("Valeur de l'as")
+    background= tk.PhotoImage(file="menu.png")
+    background_label = tk.Label(fenetreas, image=background)
+    background_label.place(x=0, y=0)
+    fenetreas.attributes("-fullscreen",True)
+    bouton_quitter = tk.Button(fenetreas, text="X", command=fenetreas.destroy, width=5, bg="red")
+    bouton_quitter.place(x=0,y=0)
+
+    myFont = font.Font(family='Comic Sans MS', size=15, weight='bold')
+    bouton_quitter['font'] = myFont
+
+    valeur_as= tk.Label(fenetreas,text="quelle est la valeur de l'as?",font=("Lithograph", 14),bg='#228B00')
+    bouton_11 = tk.Button(fenetreas, text="AS = 11", command=etat_11, width=10, bg='green')
+    bouton_1 = tk.Button(fenetreas, text="AS = 1", command=etat_1, width=10, bg='green')
+    valeur_as.place(x=960,y=540)
+    bouton_11.place(x=930, y= 340)
+    bouton_1.place(x=1020, y= 340)
+    fenetreas.mainloop()
+    return valeur
+
+
 def quitter():
     """ferme la fenetre"""
     fenetre.destroy()
@@ -49,22 +90,22 @@ def stand():
 def affichage_carte1_joueur(img_carte):
     """affiche la 1ere carte du joueur"""
     label1 = tk.Label(fenetre, image = img_carte)
-    label1.place(x=597,y=483)
+    label1.place(x=910,y=720)
 
 def affichage_carte1_croupier(img_carte):
     """affiche la 1ere carte du croupier"""
     label1 = tk.Label(fenetre, image = img_carte)
-    label1.place(x=597,y=45)
+    label1.place(x=910,y=80)
 
 def affichage_carte_retournee_croupier(img_carte):
     """affiche la 2eme carte du croupier"""
     label1 = tk.Label(fenetre, image = img_carte)
-    label1.place(x=618,y=67)
+    label1.place(x=931,y=102)
 
 def affichage_carte2_joueur(img_carte):
     """affiche la 2ere carte du joueur"""
     label2 = tk.Label(fenetre, image = img_carte)
-    label2.place(x=618,y=505)
+    label2.place(x=931,y=742)
 
 def affichage_carte_hit(img_carte,x,y):
     """affiche les cartes hit du joueur"""
@@ -250,24 +291,8 @@ def set_hit():
     etat_hit.set(1)
     return
 
-def etat_11():
-    global as_11
-    global joueur
-    bouton_11.destroy()
-    bouton_1.destroy()
-    valeur_as.destroy()
-    # compteur.config(text='score : '+str(joueur))
-    return as_11.set(1)
 
-def etat_1():
-    global as_1
-    global joueur
-    bouton_1.destroy()
-    bouton_11.destroy()
-    valeur_as.destroy()
-    # compteur.config(text='score : '+str(joueur))
-    return as_1.set(1)
-
+    
 def distribution(condi):
     """Fonction qui permet de distribuer chaque carte dans chaque situation, elle prend en paramètre 'condi' qui nous permet de déterminer dans quelle situation de jeu nous nous trouvons"""
     global joueur
@@ -308,37 +333,9 @@ def distribution(condi):
             if valeur == 12 or valeur == 13 or valeur == 14:
                 joueur = joueur - valeur + 10
                 update()
-        if c1 != 1:
-            joueur+= c1
-            update()
-        else:
-            valeur_as.place(x=1000,y=300)
-            bouton_11.place(x=950, y= 340)
-            bouton_1.place(x=1040, y= 340)
-            if as_11.get() == 1:
-                c1 = 11
-            if as_1.get()== 1:
-                c1= 1
-            joueur+= c1
-            print(c1)
-            update()
-            return c1
-        
-        if c2 != 1:
-            joueur += c2
-            update()
-        else:
-            valeur_as.place(x=1000,y=300)
-            bouton_11.place(x=950, y= 340)
-            bouton_1.place(x=1040, y= 340)
-            if as_11.get() == 1:
-                c2 = 11
-            if as_1.get()== 1:
-                c2= 1
-            joueur += c2
-            print(c2)
-            update()
-            return c2
+        joueur+= c1
+        joueur += c2
+        update()
         
         # joueur+= c1
         # joueur += c2
@@ -392,12 +389,12 @@ def distribution(condi):
 Fin = False
 
 fenetre_menu = menu()
-
+As_val = as_menu()
+print(As_val,"C'est bon ou que les petits?",fenetre_menu)
 while Fin is not True:
-
-    As = 1
+    
     # carte = [As, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14]
-    carte = [As, As, 3, As, 5, As, 7, 8, As, 10, 12, As, 14]
+    carte = [As_val, As_val, 3, As_val, 5, As_val, 7, 8, As_val, 10, 12, As_val, 14]
     symboles = ['trefle', 'coeur', 'carreau', 'pique']
     deck = [(card,suit) for card in carte for suit in symboles]
     # peut être ajouter le bet
@@ -409,7 +406,8 @@ while Fin is not True:
     tour = 0
     
     #play = True  # bouton avec play booléen oui ou non
-    if fenetre_menu == True:
+
+    if As_val != 0 and fenetre_menu == True:
     #creation de la fenetre
         fenetre= tk.Tk()
         fenetre.title("blackjack")
@@ -425,28 +423,20 @@ while Fin is not True:
         bouton_quitter.grid(column=0,row=0)
 
         bouton_stand= tk.Button(fenetre, text="STAND", command=stand, width=20, bg='green')
-        bouton_stand.place(x=800, y=838)
+        bouton_stand.place(x=1080, y=980)
 
         bouton_remake= tk.Button(fenetre, text="REMAKE", command=remake, width=20, bg='green')
-        bouton_remake.place(x=480, y=838)
-
-        valeur_as= tk.Label(fenetre,text="quelle est la valeur de l'as?",font=("Lithograph", 14),bg='#228B00')
-        bouton_11 = tk.Button(fenetre, text="AS = 11", command=etat_11, width=10, bg='green')
-        bouton_1 = tk.Button(fenetre, text="AS = 1", command=etat_1, width=10, bg='green')
-        as_11 = tk.BooleanVar(fenetre) # creation variable booleen
-        as_11.set(0)
-        as_1 = tk.BooleanVar(fenetre) # creation variable booleen
-        as_1.set(0)
+        bouton_remake.place(x=700, y=980)
 
         compteur= tk.Label(fenetre,text='',font=("Lithograph", 14),bg='#228B00')
-        compteur.place(x=500,y=700)
+        compteur.place(x=750,y=800)
 
         compteur_hit=0
         
         etat_hit = tk.BooleanVar(fenetre) # creation variable booleen 
         etat_hit.set(0) # intialisation de la variable a False
         bouton_hit= tk.Button(fenetre, text="HIT", command= set_hit, width=20, bg='green')
-        bouton_hit.place(x=640, y=838)
+        bouton_hit.place(x=890, y=980)
         distribution(joueur)
         fenetre.mainloop()
         
@@ -457,7 +447,5 @@ while Fin is not True:
         while Fin is not True:
             tour += 1
             tour_joueur(croupierhit)
-
-    
-
-
+    else:
+        Fin = True
