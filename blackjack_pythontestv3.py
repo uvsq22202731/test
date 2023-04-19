@@ -93,7 +93,6 @@ def hit():
     if compteur_hit == 1:
         sleep(0.2)
         affichage_carte_hit(liste_images_cartes[8],x,y)
-        compteur.config(text='score : '+str(joueur))
         print(liste_images_cartes)
         x+=22
         y+=35
@@ -101,14 +100,12 @@ def hit():
         sleep(0.2)
         print(liste_images_cartes)
         # affichage_carte_hit(liste_images_cartes[10],x,y)
-        compteur.config(text='score : '+str(joueur))
         x+=22
         y+=35
     elif compteur_hit == 3:
         sleep(0.2)
         print(liste_images_cartes)
         # affichage_carte_hit(liste_images_cartes[12],x,y)
-        compteur.config(text='score : '+str(joueur))
         x+=22
         y+=35
     return etat_hit.set(0)
@@ -336,7 +333,7 @@ def distribution(condi):
         if joueur >= 21:
                 bouton_hit.config(state="disabled")
                 return
-        elif etat_hit.get()==1:
+        if etat_hit.get()==1:
             cartehit= carte[cartealeatoire[croupierhit]]
             liste_images_cartes.append(charger_image(afficher_carte(croupierhit)))
             # if cartehit == 1:
@@ -349,6 +346,7 @@ def distribution(condi):
             #         cartehit= 1
             #     return
             joueur += cartehit
+            update()
             hit()
             croupierhit+=1
             return
@@ -374,7 +372,6 @@ Fin = False
 while Fin is not True:
     
     fenetre_menu = menu()
-    print(fenetre_menu)
     As = 1
     carte = [As, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14]
     symboles = ['trefle', 'coeur', 'carreau', 'pique']
