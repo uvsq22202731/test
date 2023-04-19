@@ -457,6 +457,8 @@ while Fin is not True:
         while Fin is not True:
             tour += 1
             tour_joueur(croupierhit)
+    else:
+        Fin = True
 
     
 
