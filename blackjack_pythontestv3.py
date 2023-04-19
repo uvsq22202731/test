@@ -217,17 +217,7 @@ def afficher_carte(nb):
     global deck 
     global joueur
     global croupier
-    qui = ""
     valeur = carte[cartealeatoire[nb]]
-    if nb == 0 or nb == 2 or nb == 4:
-        qui = "joueur"
-    else:
-        qui = "croupier"
-    if valeur == 12 or valeur == 13 or valeur == 14:
-        if qui == "joueur":
-            joueur = joueur + 10 - valeur
-        elif qui == "croupier":
-            croupier = croupier + 10 - valeur
     symbole = random.choice(symboles)
     current_card= valeur,symbole
     if (valeur,"coeur") and (valeur,"trefle") and (valeur,'carreau') and (valeur,'pique') not in deck:
@@ -262,14 +252,20 @@ def set_hit():
 
 def etat_11():
     global as_11
+    global joueur
     bouton_11.destroy()
+    bouton_1.destroy()
     valeur_as.destroy()
+    # compteur.config(text='score : '+str(joueur))
     return as_11.set(1)
 
 def etat_1():
     global as_1
+    global joueur
     bouton_1.destroy()
+    bouton_11.destroy()
     valeur_as.destroy()
+    # compteur.config(text='score : '+str(joueur))
     return as_1.set(1)
 
 def distribution(condi):
@@ -285,22 +281,14 @@ def distribution(condi):
     global valeur_as
     global bouton_11
     global bouton_1
+    liste_score=[]
     def update():
         return compteur.config(text='score : '+str(joueur))
     # compteur_hit = 0
     if condi == 0:  #joueur == 0, est le début de la partie avec la distribution des cartes.
+
         c1= carte[cartealeatoire[0]]
-        # if c1 == 1:
-        #     valeur_as.place(x=1000,y=300)
-        #     bouton_11.place(x=1000, y= 320)
-        #     bouton_1.place(x=1020, y= 320)
-        #     if as_11.get() == 1:
-        #         c1 = 11
-        #     elif as_11.get()== 1:
-        #         c1= 1
-        #     return
-        joueur+= c1
-        update()
+        liste_score.append(c1)
         # c=afficher_carte(0)
         liste_images_cartes.append(charger_image(afficher_carte(0)))
         affichage_carte1_joueur(liste_images_cartes[0])
@@ -309,22 +297,54 @@ def distribution(condi):
         liste_images_cartes.append(charger_image(afficher_carte(1)))
         affichage_carte1_croupier(liste_images_cartes[2])
         c2= carte[cartealeatoire[2]]
-        # if c2 == 1:
-        #     valeur_as.place(x=1000,y=300)
-        #     bouton_11.place(x=1000, y= 320)
-        #     bouton_1.place(x=1020, y= 320)
-        #     if as_11.get() == 1:
-        #         c2 = 11
-        #     elif as_1.get()== 1:
-        #         c2= 1
-        #     return
-        joueur += c2
-        update()
-        # c2=afficher_carte(2)
+        liste_score.append(c2)
         liste_images_cartes.append(charger_image(afficher_carte(2)))
         affichage_carte2_joueur(liste_images_cartes[4])
         liste_images_cartes.append(charger_image('dos'))
         affichage_carte_retournee_croupier(liste_images_cartes[6])
+        print(liste_score)
+
+        for valeur in liste_score:
+            if valeur == 12 or valeur == 13 or valeur == 14:
+                joueur = joueur - valeur + 10
+                update()
+        if c1 != 1:
+            joueur+= c1
+            update()
+        else:
+            valeur_as.place(x=1000,y=300)
+            bouton_11.place(x=950, y= 340)
+            bouton_1.place(x=1040, y= 340)
+            if as_11.get() == 1:
+                c1 = 11
+            if as_1.get()== 1:
+                c1= 1
+            joueur+= c1
+            print(c1)
+            update()
+            return c1
+        
+        if c2 != 1:
+            joueur += c2
+            update()
+        else:
+            valeur_as.place(x=1000,y=300)
+            bouton_11.place(x=950, y= 340)
+            bouton_1.place(x=1040, y= 340)
+            if as_11.get() == 1:
+                c2 = 11
+            if as_1.get()== 1:
+                c2= 1
+            joueur += c2
+            print(c2)
+            update()
+            return c2
+        
+        # joueur+= c1
+        # joueur += c2
+        # update()
+        # c2=afficher_carte(2)
+        
         # print(c,c1,c2, liste_images_cartes)
         # cartehit= carte[cartealeatoire[croupierhit]]
         # joueur += cartehit
@@ -376,7 +396,8 @@ fenetre_menu = menu()
 while Fin is not True:
 
     As = 1
-    carte = [As, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14]
+    # carte = [As, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14]
+    carte = [As, As, 3, As, 5, As, 7, 8, As, 10, 12, As, 14]
     symboles = ['trefle', 'coeur', 'carreau', 'pique']
     deck = [(card,suit) for card in carte for suit in symboles]
     # peut être ajouter le bet
@@ -410,8 +431,8 @@ while Fin is not True:
         bouton_remake.place(x=480, y=838)
 
         valeur_as= tk.Label(fenetre,text="quelle est la valeur de l'as?",font=("Lithograph", 14),bg='#228B00')
-        bouton_11 = tk.Button(fenetre, text="AS = 11", command=etat_11, width=20, bg='green')
-        bouton_1 = tk.Button(fenetre, text="AS = 1", command=etat_1, width=20, bg='green')
+        bouton_11 = tk.Button(fenetre, text="AS = 11", command=etat_11, width=10, bg='green')
+        bouton_1 = tk.Button(fenetre, text="AS = 1", command=etat_1, width=10, bg='green')
         as_11 = tk.BooleanVar(fenetre) # creation variable booleen
         as_11.set(0)
         as_1 = tk.BooleanVar(fenetre) # creation variable booleen
