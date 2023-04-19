@@ -392,7 +392,7 @@ while Fin is not True:
     #creation de la fenetre
         fenetre= tk.Tk()
         fenetre.title("blackjack")
-        # fenetre.bind('<Escape>', lambda e: fenetre.destroy())
+        fenetre.bind('<Escape>', lambda e: fenetre.destroy())
         background= tk.PhotoImage(file="background.png")
         background_label = tk.Label(fenetre, image=background)
         background_label.place(x=0, y=0)
@@ -427,12 +427,12 @@ while Fin is not True:
         bouton_hit= tk.Button(fenetre, text="HIT", command= set_hit, width=20, bg='green')
         bouton_hit.place(x=640, y=838)
         distribution(joueur)
-
+        fenetre.mainloop()
         
-        if tour == 0 and joueur == (As+10):
-            print("BLACKJACK ! \nVous avez gagné !")
-            Fin = True
-            break
+        # if tour == 0 and joueur == (As+10):
+        #     print("BLACKJACK ! \nVous avez gagné !")
+        #     Fin = True
+        #     break
         while Fin is not True:
             tour += 1
             tour_joueur(croupierhit)
