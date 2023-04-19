@@ -330,7 +330,7 @@ def distribution(condi):
         # joueur += cartehit
         return
         
-    elif joueur < 21 and joueur != 0:
+    elif joueur < 21 and condi== 2:
         if joueur >= 21:
                 bouton_hit.config(state="disabled")
                 return
@@ -436,6 +436,7 @@ while Fin is not True:
         while Fin is not True:
             tour += 1
             tour_joueur(croupierhit)
+
     
 
 
