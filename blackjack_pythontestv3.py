@@ -25,9 +25,9 @@ def menu():
     etat_play = tk.BooleanVar(fenetrem) # creation variable booleen 
     etat_play.set(0) # intialisation de la variable a False
     bouton_quitter = tk.Button(fenetrem, text="QUITTER", command=fenetrem.destroy, width=20,height=2,bg='white') # ferme la fenetre, fin du jeu
-    bouton_quitter.place(x=680,y=300)
+    bouton_quitter.place(x=980,y=500)
     bouton_play = tk.Button(fenetrem, text="JOUER", command=lambda:etat_quit(), width=20, height=2,bg='white') #si le boutton jouer est clické, on ferme le menu et retourne la valeur True
-    bouton_play.place(x=400,y=300)
+    bouton_play.place(x=700,y=500)
     myFont = font.Font(family='Comic Sans MS', size=15, weight='bold')
     bouton_quitter['font'] = myFont
     bouton_play['font'] = myFont
@@ -59,18 +59,20 @@ def as_menu():
     background_label = tk.Label(fenetreas, image=background)
     background_label.place(x=0, y=0)
     fenetreas.attributes("-fullscreen",True)
-    bouton_quitter = tk.Button(fenetreas, text="X", command=fenetreas.destroy, width=5, bg="red")
+    bouton_quitter = tk.Button(fenetreas, text="X", command=quitter, width=5, bg="red")
     bouton_quitter.place(x=0,y=0)
 
     myFont = font.Font(family='Comic Sans MS', size=15, weight='bold')
-    bouton_quitter['font'] = myFont
 
-    valeur_as= tk.Label(fenetreas,text="quelle est la valeur de l'as?",font=("Lithograph", 14),bg='#228B00')
-    bouton_11 = tk.Button(fenetreas, text="AS = 11", command=etat_11, width=10, bg='green')
-    bouton_1 = tk.Button(fenetreas, text="AS = 1", command=etat_1, width=10, bg='green')
-    valeur_as.place(x=960,y=540)
-    bouton_11.place(x=930, y= 340)
-    bouton_1.place(x=1020, y= 340)
+    valeur_as= tk.Label(fenetreas,text="quelle est la valeur de l'as?",width=38, height=2,bg = '#228B00',highlightthickness=3, highlightcolor = "white")
+    bouton_11 = tk.Button(fenetreas, text="AS = 11", command=etat_11, width=20, height=2,bg='white')
+    bouton_1 = tk.Button(fenetreas, text="AS = 1", command=etat_1, width=20, height=2,bg='white')
+    valeur_as['font'] = myFont
+    bouton_11['font'] = myFont
+    bouton_1['font'] = myFont
+    valeur_as.place(x=728,y=420) 
+    bouton_11.place(x=980,y=500)
+    bouton_1.place(x=700,y=500)
     fenetreas.mainloop()
     return valeur
 
@@ -192,9 +194,10 @@ def tour_croupier(numservicecroupier):
     global joueur
     global croupier
     global etat_hit
+    global As_val
     retourner = etat_hit.get()
     distribution(retourner)
-    if (carte[cartealeatoire[3]] == As and carte[cartealeatoire[1]] == 6) or (carte[cartealeatoire[3]] == 6 and carte[cartealeatoire[1]] == As):
+    if (carte[cartealeatoire[3]] == As_val and carte[cartealeatoire[1]] == 6) or (carte[cartealeatoire[3]] == 6 and carte[cartealeatoire[1]] == As_val):
         if croupier == 17 or croupier == 7:
             croupier = 17
             conditions()
@@ -389,8 +392,10 @@ def distribution(condi):
 Fin = False
 
 fenetre_menu = menu()
-As_val = as_menu()
-print(As_val,"C'est bon ou que les petits?",fenetre_menu)
+if fenetre_menu == True:
+    As_val = as_menu()
+else:
+    As_val = 0
 while Fin is not True:
     
     # carte = [As, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14]
