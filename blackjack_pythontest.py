@@ -5,7 +5,7 @@ from PIL import Image
 import random
 from time import *
 import tkinter.font as font
-
+from tkinter import messagebox
 """Fonctions interface"""
 
 def menu():
@@ -113,30 +113,30 @@ def conditions():
     global joueur
     global croupier
     if joueur == croupier:
-        print("Le croupier possède " + str(croupier), "\nVous avez " + str(joueur), "\nC'est une égalité")
+        # messagebox.showinfo("draw!", "Le croupier possède " + str(croupier)+ "\nVous avez " + str(joueur)+ "\nC'est une égalité")
         Fin = True
         return
     if (joueur > croupier) or (croupier > 22):
         if joueur > 21:
             if croupier > 21:
-                print("Le croupier possède " + str(croupier), "\nVous avez " + str(joueur), "\nC'est une égalité")
+                #messagebox.showinfo("draw!", "Le croupier possède " + str(croupier)+ "\nVous avez " + str(joueur)+"\nC'est une égalité")
                 Fin = True
                 return
             else:
-                print("\nLe croupier possède " + str(croupier), "\nVous avez " + str(joueur), "\nVous avez perdu")
+                # messagebox.showinfo("lose!","Le croupier possède " + str(croupier)+"\nVous avez " + str(joueur)+ "\nVous avez perdu")
                 Fin = True
                 return
         else:
-            print("\nLe croupier possède " + str(croupier), "\nVous avez " + str(joueur), "\nVous avez gagné")
+            # messagebox.showinfo("win!","\nLe croupier possède " + str(croupier)+ "\nVous avez " + str(joueur)+ "\nVous avez gagné")
             Fin = True
             return
     if croupier > joueur and croupier < 22:
         if joueur > 21:
-            print("Le croupier possède " + str(croupier), "\nVous avez " + str(joueur), "\nC'est une égalité")
+            # messagebox.showinfo("draw!","Le croupier possède " + str(croupier)+ "\nVous avez " + str(joueur)+ "\nC'est une égalité")
             Fin = True
             return
         else:
-            print("\nLe croupier possède " + str(croupier), "\nVous avez " + str(joueur), "\nvous avez perdu")
+            # messagebox.showinfo("lose!","\nLe croupier possède " + str(croupier)+ "\nVous avez " + str(joueur)+"\nvous avez perdu")
             Fin = True
             return
     return
@@ -179,20 +179,21 @@ def tour_joueur(servicecroupier):
     global compteur_hit
     
     if joueur >= 22:
-        print("\nLe croupier possède " + str(croupier), "\nVous avez " + str(joueur), "\nvous avez perdu")
+        
+        # messagebox.showinfo("lose!","\nLe croupier possède " + str(croupier)+ "\nVous avez " + str(joueur)+ "\nvous avez perdu")
         Fin = True
     elif joueur < 22:
-        print("\nLe croupier possède " + str(croupier), "+ une carte retourné.\nVous avez " + str(joueur))
+        #print("\nLe croupier possède " + str(croupier), "+ une carte retourné.\nVous avez " + str(joueur))
         # abandonner = str(input("Voulez vous abandonner et perdre la moitié de votre mise : yes or no: "))
         # reste = str(input("Reste : yes or no: "))
         abandonner = "no"
-        reste = "no"
+        reste = etat_hit.get()
         if abandonner == "yes":
             Fin = True
             # on arrête le jeu (on met cette condition en premier comme ça on peut pas appuyer sur deux boutons)
             return
         else:
-            if reste == "yes":
+            if reste == 1:
                 tour_croupier(servicecroupier)
                 pass
                 # si c'est non on regarde les autres boutons
@@ -283,23 +284,22 @@ def distribution(condi):
         # print(c,c1,c2, liste_images_cartes)
         cartehit= carte[cartealeatoire[croupierhit]]
         joueur += cartehit
-        if joueur != 21 and joueur> 21 and cartehit == 11:
+        compteur_hit=1
+        if cartehit == 11 and joueur != 21 and joueur> 21:
             joueur -= 10
             update()
             return
-        if etat_hit.get()==1:
-            update()
-            return etat_hit.set(0)
-       
+        if joueur >= 21:
+            return
+            # bouton_hit.config(state="disabled")
+        
         while joueur < 21 and compteur_hit>0:
             croupierhit+=1
             joueur += carte[cartealeatoire[croupierhit]]
-            if joueur >= 21:
-                bouton_hit.config(state="disabled")
             update()
             liste_images_cartes.append(charger_image(afficher_carte(croupierhit)))
-            
-            return
+            print(liste_images_cartes)
+        
         return joueur, croupier
 
     # if etat_hit.get() == 1:  #condition == 'yes', est le moment où le joueur décide de hit ou non. Condi étant égal à 'yes' ou 'no'

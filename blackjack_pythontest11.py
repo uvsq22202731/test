@@ -94,6 +94,7 @@ def hit():
         sleep(0.2)
         # affichage_carte_hit(liste_images_cartes[8],x,y)
         compteur.config(text='score : '+str(joueur))
+        print(liste_images_cartes)
         x+=22
         y+=35
     elif compteur_hit == 2:
@@ -122,30 +123,30 @@ def conditions():
     global joueur
     global croupier
     if joueur == croupier:
-        print("Le croupier possède " + str(croupier), "\nVous avez " + str(joueur), "\nC'est une égalité")
+        # print("Le croupier possède " + str(croupier), "\nVous avez " + str(joueur), "\nC'est une égalité")
         Fin = True
         return
     if (joueur > croupier) or (croupier > 22):
         if joueur > 21:
             if croupier > 21:
-                print("Le croupier possède " + str(croupier), "\nVous avez " + str(joueur), "\nC'est une égalité")
+                # print("Le croupier possède " + str(croupier), "\nVous avez " + str(joueur), "\nC'est une égalité")
                 Fin = True
                 return
             else:
-                print("\nLe croupier possède " + str(croupier), "\nVous avez " + str(joueur), "\nVous avez perdu")
+                # print("\nLe croupier possède " + str(croupier), "\nVous avez " + str(joueur), "\nVous avez perdu")
                 Fin = True
                 return
         else:
-            print("\nLe croupier possède " + str(croupier), "\nVous avez " + str(joueur), "\nVous avez gagné")
+            # print("\nLe croupier possède " + str(croupier), "\nVous avez " + str(joueur), "\nVous avez gagné")
             Fin = True
             return
     if croupier > joueur and croupier < 22:
         if joueur > 21:
-            print("Le croupier possède " + str(croupier), "\nVous avez " + str(joueur), "\nC'est une égalité")
+            # print("Le croupier possède " + str(croupier), "\nVous avez " + str(joueur), "\nC'est une égalité")
             Fin = True
             return
         else:
-            print("\nLe croupier possède " + str(croupier), "\nVous avez " + str(joueur), "\nvous avez perdu")
+            # print("\nLe croupier possède " + str(croupier), "\nVous avez " + str(joueur), "\nvous avez perdu")
             Fin = True
             return
     return
@@ -188,10 +189,10 @@ def tour_joueur(servicecroupier):
     global compteur_hit
     
     if joueur >= 22:
-        print("\nLe croupier possède " + str(croupier), "\nVous avez " + str(joueur), "\nvous avez perdu")
+        # print("\nLe croupier possède " + str(croupier), "\nVous avez " + str(joueur), "\nvous avez perdu")
         Fin = True
     elif joueur < 22:
-        print("\nLe croupier possède " + str(croupier), "+ une carte retourné.\nVous avez " + str(joueur))
+        # print("\nLe croupier possède " + str(croupier), "+ une carte retourné.\nVous avez " + str(joueur))
         # abandonner = str(input("Voulez vous abandonner et perdre la moitié de votre mise : yes or no: "))
         # reste = str(input("Reste : yes or no: "))
         abandonner = "no"
@@ -290,15 +291,15 @@ def distribution(condi):
     # compteur_hit = 0
     if joueur == 0:  #joueur == 0, est le début de la partie avec la distribution des cartes.
         c1= carte[cartealeatoire[0]]
-        if c1 == 1:
-            valeur_as.place(x=1000,y=300)
-            bouton_11.place(x=1000, y= 320)
-            bouton_1.place(x=1020, y= 320)
-            if as_11.get() == 1:
-                c1 = 11
-            elif as_11.get()== 1:
-                c1= 1
-            return
+        # if c1 == 1:
+        #     valeur_as.place(x=1000,y=300)
+        #     bouton_11.place(x=1000, y= 320)
+        #     bouton_1.place(x=1020, y= 320)
+        #     if as_11.get() == 1:
+        #         c1 = 11
+        #     elif as_11.get()== 1:
+        #         c1= 1
+        #     return
         joueur+= c1
         update()
         # c=afficher_carte(0)
@@ -309,15 +310,15 @@ def distribution(condi):
         liste_images_cartes.append(charger_image(afficher_carte(1)))
         affichage_carte1_croupier(liste_images_cartes[2])
         c2= carte[cartealeatoire[2]]
-        if c2 == 1:
-            valeur_as.place(x=1000,y=300)
-            bouton_11.place(x=1000, y= 320)
-            bouton_1.place(x=1020, y= 320)
-            if as_11.get() == 1:
-                c2 = 11
-            elif as_1.get()== 1:
-                c2= 1
-            return
+        # if c2 == 1:
+        #     valeur_as.place(x=1000,y=300)
+        #     bouton_11.place(x=1000, y= 320)
+        #     bouton_1.place(x=1020, y= 320)
+        #     if as_11.get() == 1:
+        #         c2 = 11
+        #     elif as_1.get()== 1:
+        #         c2= 1
+        #     return
         joueur += c2
         update()
         # c2=afficher_carte(2)
@@ -328,35 +329,37 @@ def distribution(condi):
         # print(c,c1,c2, liste_images_cartes)
         # cartehit= carte[cartealeatoire[croupierhit]]
         # joueur += cartehit
+        return
         
-        while joueur < 21:
-            if joueur >= 21:
-                    bouton_hit.config(state="disabled")
-                    return
-            if etat_hit.get()==1:
-                cartehit= carte[cartealeatoire[croupierhit]]
-                liste_images_cartes.append(charger_image(afficher_carte(croupierhit)))
-                croupierhit+=1
-                if cartehit == 1:
-                    valeur_as.place(x=800,y=300)
-                    bouton_11.place(x=1000, y= 320)
-                    bouton_1.place(x=1020, y= 320)
-                    if as_11.get() == 1:
-                        cartehit = 11
-                    elif as_1.get()== 1:
-                        cartehit= 1
-                    return
-                joueur += cartehit
-                hit()
-
-                return etat_hit.set(0)
+    if joueur < 21 and joueur != 0:
+        if joueur >= 21:
+                bouton_hit.config(state="disabled")
+                return
+        elif etat_hit.get()==1:
+            cartehit= carte[cartealeatoire[croupierhit]]
+            liste_images_cartes.append(charger_image(afficher_carte(croupierhit)))
+            # if cartehit == 1:
+            #     valeur_as.place(x=800,y=300)
+            #     bouton_11.place(x=1000, y= 320)
+            #     bouton_1.place(x=1020, y= 320)
+            #     if as_11.get() == 1:
+            #         cartehit = 11
+            #     elif as_1.get()== 1:
+            #         cartehit= 1
+            #     return
+            joueur += cartehit
+            hit()
+            croupierhit+=1
+            etat_hit.set(0)
+            print(etat_hit.get())
+            return
             
         return joueur, croupier
 
     # if etat_hit.get() == 1:  #condition == 'yes', est le moment où le joueur décide de hit ou non. Condi étant égal à 'yes' ou 'no'
     #     hit()
     #     return
-    elif condi == True:  #la condition = True, est le moment où la carte du croupier est retournée, et on la retourne (la carte étant déjà distribué son numéro est déjà défini)
+    if condi == True:  #la condition = True, est le moment où la carte du croupier est retournée, et on la retourne (la carte étant déjà distribué son numéro est déjà défini)
         croupier += carte[cartealeatoire[3]]
         liste_images_cartes.append(charger_image(afficher_carte(3)))
         affichage_carte_retournee_croupier(liste_images_cartes[8])
@@ -372,12 +375,26 @@ Fin = False
 while Fin is not True:
     
     fenetre_menu = menu()
+    print(fenetre_menu)
+    As = 1
+    carte = [As, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14]
+    symboles = ['trefle', 'coeur', 'carreau', 'pique']
+    deck = [(card,suit) for card in carte for suit in symboles]
+    # peut être ajouter le bet
+    Fin = False
+    croupierhit = 4  # carte retourné sur la table
+    cartealeatoire = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    joueur = 0
+    croupier = 0
+    random.shuffle(cartealeatoire)
+    tour = 0
+    
     #play = True  # bouton avec play booléen oui ou non
     if fenetre_menu == True:
     #creation de la fenetre
         fenetre= tk.Tk()
         fenetre.title("blackjack")
-        fenetre.bind('<Escape>', lambda e: fenetre.destroy())
+        # fenetre.bind('<Escape>', lambda e: fenetre.destroy())
         background= tk.PhotoImage(file="background.png")
         background_label = tk.Label(fenetre, image=background)
         background_label.place(x=0, y=0)
@@ -411,20 +428,11 @@ while Fin is not True:
         etat_hit.set(0) # intialisation de la variable a False
         bouton_hit= tk.Button(fenetre, text="HIT", command= hit, width=20, bg='green')
         bouton_hit.place(x=640, y=838)
-
-        As = 1
-        carte = [As, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14]
-        symboles = ['trefle', 'coeur', 'carreau', 'pique']
-        deck = [(card,suit) for card in carte for suit in symboles]
-        # peut être ajouter le bet
-        Fin = False
-        croupierhit = 4  # carte retourné sur la table
-        cartealeatoire = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-        joueur = 0
-        croupier = 0
-        random.shuffle(cartealeatoire)
-        tour = 0
         distribution(joueur)
+        
+        fenetre.mainloop()
+
+        
         if tour == 0 and joueur == (As+10):
             print("BLACKJACK ! \nVous avez gagné !")
             Fin = True
@@ -432,6 +440,6 @@ while Fin is not True:
         while Fin is not True:
             tour += 1
             tour_joueur(croupierhit)
+    
 
 
-fenetre.mainloop()
