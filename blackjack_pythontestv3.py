@@ -257,7 +257,8 @@ def afficher_carte(nb):
 
 def set_hit():
     global etat_hit
-    return etat_hit.set(1)
+    etat_hit.set(1)
+    return
 
 def etat_11():
     global as_11
@@ -287,7 +288,7 @@ def distribution(condi):
     def update():
         return compteur.config(text='score : '+str(joueur))
     # compteur_hit = 0
-    if joueur == 0:  #joueur == 0, est le début de la partie avec la distribution des cartes.
+    if condi == 0:  #joueur == 0, est le début de la partie avec la distribution des cartes.
         c1= carte[cartealeatoire[0]]
         # if c1 == 1:
         #     valeur_as.place(x=1000,y=300)
@@ -369,15 +370,16 @@ def distribution(condi):
 
 """Programme principal"""
 Fin = False
+
+fenetre_menu = menu()
+
 while Fin is not True:
-    
-    fenetre_menu = menu()
+
     As = 1
     carte = [As, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14]
     symboles = ['trefle', 'coeur', 'carreau', 'pique']
     deck = [(card,suit) for card in carte for suit in symboles]
     # peut être ajouter le bet
-    Fin = False
     croupierhit = 4  # carte retourné sur la table
     cartealeatoire = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     joueur = 0
@@ -425,8 +427,6 @@ while Fin is not True:
         bouton_hit= tk.Button(fenetre, text="HIT", command= set_hit, width=20, bg='green')
         bouton_hit.place(x=640, y=838)
         distribution(joueur)
-        
-        fenetre.mainloop()
 
         
         if tour == 0 and joueur == (As+10):
